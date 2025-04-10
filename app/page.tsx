@@ -31,20 +31,23 @@ export default function Home() {
   onSubmit={(e) => {
     e.preventDefault();
 
-    const name = e.target.name.value;
-    const address = e.target.address.value;
-    const phone = e.target.phone.value;
-    const service = e.target.service.value;
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const name = formData.get("name") as string;
+    const address = formData.get("address") as string;
+    const phone = formData.get("phone") as string;
+    const service = formData.get("service") as string;
 
     // WhatsApp notification
     const message = `🎉 *New Ganpati Order Received!* 🎉\n\n👤 Name: ${name}\n🏡 Address: ${address}\n📱 Phone: ${phone}\n📦 Service: ${service}`;
-    const whatsappURL = `https://wa.me/91YOURNUMBER?text=${encodeURIComponent(message)}`;
+    const whatsappURL = `https://wa.me/919673911816?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, "_blank");
 
     // Email backup (Formspree)
-    const form = document.createElement("form");
-    form.action = "https://formspree.io/f/YOUR-FORM-ID"; // Replace with your real Formspree endpoint
-    form.method = "POST";
+    const backupForm = document.createElement("form");
+    backupForm.action = "https://formspree.io/f/nandinidesale001@gmail.com";
+    backupForm.method = "POST";
 
     const inputs = [
       { name: "Name", value: name },
@@ -58,15 +61,17 @@ export default function Home() {
       input.type = "hidden";
       input.name = field.name;
       input.value = field.value;
-      form.appendChild(input);
+      backupForm.appendChild(input);
     });
 
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
+    document.body.appendChild(backupForm);
+    backupForm.submit();
+    document.body.removeChild(backupForm);
   }}
-  className="max-w-md mx-auto bg-white shadow-md rounded-xl p-4 space-y-3"
 >
+
+  className="max-w-md mx-auto bg-white shadow-md rounded-xl p-4 space-y-3"
+
   <input name="name" type="text" placeholder="Your Name" className="w-full p-2 border rounded" required />
   <input name="address" type="text" placeholder="Address" className="w-full p-2 border rounded" required />
   <input name="phone" type="tel" placeholder="Phone Number" className="w-full p-2 border rounded" required />
